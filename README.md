@@ -19,6 +19,3 @@ Testing:
 Empirical:
 -Convert empirical data, which should be in h5 format, into two-dimensional matrices (i.e. feature vector images) using empirical_convert_to_FVs.sh/empirical_convert_to_FVs.py and then empirical_merge_FVs.sh
 -Classify empirical feature vector images with optimized CNN classifier using empirical_deep_learning_classify.sh/empirical_deep_learning_classify.py
--(optional) Permute classification calls across DNA regions to test significant enrichment using empirical_test_enrichment_DNA_regions.permutations_annotations.sh/empirical_test_enrichment_DNA_regions.permutations.py/empirical_test_enrichment_DNA_regions.annotations.py/empirical_test_enrichment_DNA_regions.permutations_annotations_counts.py/empirical_test_enrichment_DNA_regions.permutations_annotations_pvalues.py
--(optional) Permute classification calls across IR genes and GO terms to test significant enrichment of total sweep calls using empirical_test_enrichment_IR_genes_GO_terms_selection-presence.permutations_annotations.sh
--(optional) Permute classification calls across IR genes and GO terms to test significant enrichment of each sweep state using empirical_test_enrichment_IR_genes_GO_terms.permutations_annotations.sh
