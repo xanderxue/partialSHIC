@@ -1,4 +1,3 @@
-#HAF/phi/kappa/SFS/SAFE distribution stats
 import time
 startTime=time.clock()
 import sys
@@ -9,16 +8,12 @@ import numpy as np
 import math
 
 '''usage eg:
-###optional###
-segmentStart=1
-segmentEnd=2050000
-###END###
-pMisPol=`python /san/personal/dan/ag1kg/demogInferenceStuff/stairwayPlotToPMisPol.py /san/personal/dan/ag1kg/demogInferenceStuff/spSummaryOutput/AOM.meru_mela.sfs.sp.summary`
-python convert_to_FVs.py /san/data/ag1kg/haplotypes/ag1000g.phase1.ar3.haplotypes.2L.h5 2L 49364325 $segmentStart $segmentEnd 5000 11 0.25 $pMisPol /san/personal/dan/ag1kg/shicScanPhaseI/partialStatsAndDafs/AOM_partial_stats.txt /san/data/ag1kg/accessibility/Anopheles-gambiae-PEST_CHROMOSOMES_AgamP3.accessible.fa /san/data/ag1kg/outgroups/anc.meru_mela.2L.fa /san/data/ag1kg/samples_pops.txt AOM data/sumstats/AOM/2L.$segmentStart.stats data/FVs/AOM/2L.$segmentStart.fvec
+pMisPol=`python2 stairwayPlotToPMisPol.py AOM.meru_mela.sfs.sp.summary`
+python2 empirical_convert_to_FVs.py ag1000g.phase1.ar3.haplotypes.2L.h5 2L 49364325 1 5000000 5000 11 0.25 $pMisPol AOM_partial_stats.txt Anopheles-gambiae-PEST_CHROMOSOMES_AgamP3.accessible.fa anc.meru_mela.2L.fa samples_pops.txt AOM 2L.1.stats 2L.1.fvec
 '''
 
 if not len(sys.argv) in [15,17]:
-  sys.exit("usage:\npython convert_to_FVs.py chrArmFileName chrArm chrLen [segmentStart segmentEnd] subWinSize numSubWins unmaskedFracCutoff pMisPol partialStatAndDafFileName maskFileName ancestralArmFaFileName sampleToPopFileName targetPop statFileName fvecFileName\n")
+  sys.exit("usage:\npython2 empirical_convert_to_FVs.py chrArmFileName chrArm chrLen [segmentStart segmentEnd] subWinSize numSubWins unmaskedFracCutoff pMisPol partialStatAndDafFileName maskFileName ancestralArmFaFileName sampleToPopFileName targetPop statFileName fvecFileName\n")
 if len(sys.argv)==17:
   chrArmFileName, chrArm, chrLen, segmentStart, segmentEnd, subWinSize, numSubWins, unmaskedFracCutoff, pMisPol, partialStatAndDafFileName, maskFileName, ancestralArmFaFileName, sampleToPopFileName, targetPop, statFileName, fvecFileName = sys.argv[1:]
 else:
@@ -281,3 +276,4 @@ if statFileName:
   statFile.close()
 fvecFile.close()
 sys.stderr.write("total time spent calculating summary statistics and generating feature vectors: %g secs\n" %(time.clock()-startTime))
+
