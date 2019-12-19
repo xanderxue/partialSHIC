@@ -1,25 +1,24 @@
 # partialSHIC
 
-Steps involving both a Python and bash script with the same root filename are used in conjunction; the bash script contains an example command, specifically that which was invoked for our study, that allows simple operation of the Python script with customization via a few arguments
+Steps involving both a bash and Python file with the same root name are used in conjunction; the bash scripts are examples of how to run the Python software that follow the procedure we performed in our paper for our mosquito study, and they assume that the GitHub repo is contained within the same local directory, such is the case when downloaded, while training, testing, and empirical data are located within local sub-directories named trainingData/, testingData/, and empiricalData/ respectively; within trainingData/ and testingData/, simulations are located across eight directories that have names corresponding to the underlying mosquito population history (e.g. AOM/, BFM/, BFS/, etc.); training simulations can be downloaded from http://sesame.uoregon.edu/~adkern/Xander_kerndev/Detecting_partial_sweeps_Anopheles_mosquito/training_sims_2/; testing simulations can be downloaded from http://sesame.uoregon.edu/~adkern/Xander_kerndev/Detecting_partial_sweeps_Anopheles_mosquito/testing_sims_2/; the command lines used for simulation with the program discoal are provided in a supplemental table from our paper; empirical data can be downloaded from ftp://ngs.sanger.ac.uk/production/ag1000g/phase1/AR3.1/haplotypes/main/hdf5/
 
 Training:
--Convert training simulation files, in gzipped ms format (one per selective sweep class), into two-dimensional matrices (i.e. feature vector images) with convert_to_FVs_training.py and convert_to_FVs_training.sh
--Sample from simulated feature vector images for equal representation of each selection state during training with sample_FVs.py and sample_FVs.sh
--Heatmap visualization of simulated feature vector images for each selection state with visualize_FVs.sh 
--Deep learning training from simulated feature vector images with deep_learning.py and deep_learning.sh
--Deep learning training for five-state classification only (i.e. without partial sweeps, or completed sweeps only) from simulated feature vector images with deep_learning_5-state_complete_only.py and deep_learning_5-state_complete_only.sh
--Deep learning training for binary classification only (i.e. between four sweep classes versus without direct selection) from simulated feature vector images with deep_learning_binary_selection.py and deep_learning_binary_selection.sh
+-Convert training simulations, which should be contained within a single file in gzipped ms format per selective sweep class, into two-dimensional matrices (i.e. feature vector images) using training_convert_to_FVs.sh/training_convert_to_FVs.py (if diploSHIC software has not been previously installed, then the following bash command must be executed beforehand: python setup.py install; if local install is desired, such as on an HPCC, then the following command may be preferable: python setup.py install --user)
+-Sample from simulated feature vector images for equal representation of each selection state during training using training_sample_FVs.sh/training_sample_FVs.py
+-(optional) Visualize heatmap of simulated feature vector images for each selection state using training_visualize_FVs.sh
+-Train CNN classifier on simulated feature vector images using training_deep_learning.sh/training_deep_learning.py
+-(alternative) Train CNN for five-state classification only (i.e. without partial sweeps, or completed sweeps only) on simulated feature vector images using training_deep_learning_5-state-complete-sweeps-only.sh/training_deep_learning_5-state-complete-sweeps-only.py
+-(alternative) Train CNN for binary classification only (i.e. between four sweep classes versus without direct selection) on simulated feature vector images using training_deep_learning_binary-selection-presence.sh/training_deep_learning_binary-selection-presence.py
 
 Testing:
--Convert testing simulation files, in gzipped ms format (one per selective sweep class), into two-dimensional matrices (i.e. feature vector images) with convert_to_FVs_testing.py and convert_to_FVs_testing.sh
--Experimental test of optimized CNN classifier on simulated feature vector images with test_classifier.py and test_classifier.sh
--Experimental test of optimized CNN five-state classifier on simulated feature vector images with test_classifier_5-state_complete_only.py and test_classifier_5-state_complete_only.sh
--Experimental test of optimized CNN binary classifier on simulated feature vector images with test_classifier_binary_selection.py, test_classifier_binary_selection.sh, and roc.py
+-Convert testing simulations, which should be contained within a single file in gzipped ms format per selective sweep class, into two-dimensional matrices (i.e. feature vector images) using testing_convert_to_FVs.sh/testing_convert_to_FVs.py
+-Classify simulated test feature vector images with optimized CNN classifier to conduct in silico experiment using testing_deep_learning_classify.sh/testing_deep_learning_classify.py
+-(alternative) Classify simulated test feature vector images with optimized CNN five-state classifier to conduct in silico experiment using testing_deep_learning_classify_5-state-complete-sweeps-only.sh/testing_deep_learning_classify_5-state-complete-sweeps-only.py
+-(alternative) Classify simulated test feature vector images with optimized CNN binary classifier to conduct in silico experiment using testing_deep_learning_classify_binary-selection-presence.sh/testing_deep_learning_classify_binary-selection-presence.py
 
 Empirical:
--Convert empirical data files, in h5 format, into two-dimensional matrices (i.e. feature vector images) with convert_to_FVs_empirical.py, convert_to_FVs_empirical.sh, and merge_FVs.sh
--Deep learning classification with optimized CNN of empirical feature vector images with deep_learning_classify.py and deep_learning_classify.sh
--Convert sub-window summary statistics from feature vector images and classification calls into UCSC browser format for visualization via convert_format_UCSC_browser_visualization.sh
--Permutation test on classification calls of significant enrichment in DNA regions with test_genes_enrichment_permutations_DNA_regions.py, test_genes_enrichment_annotations_DNA_regions.py, test_genes_enrichment_permutations_annotations_counts_DNA_regions.py, test_genes_enrichment_permutations_annotations_pvalues_DNA_regions.py, and test_genes_enrichment_permutations_annotations_DNA_regions.sh
--Permutation test on classification calls of significant enrichment in IR genes and GO terms with test_genes_enrichment_permutations_annotations.sh (associated Python scripts in S/HIC + diploS/HIC repositories)
--Permutation test on classification calls of significant enrichment for total sweep calls in IR genes and GO terms with test_genes_enrichment_permutations_annotations_selection_presence.sh (associated Python scripts in S/HIC + diploS/HIC repositories)
+-Convert empirical data, which should be in h5 format, into two-dimensional matrices (i.e. feature vector images) using empirical_convert_to_FVs.sh/empirical_convert_to_FVs.py and then empirical_merge_FVs.sh
+-Classify empirical feature vector images with optimized CNN classifier using empirical_deep_learning_classify.sh/empirical_deep_learning_classify.py
+-(optional) Permute classification calls across DNA regions to test significant enrichment using empirical_test_enrichment_DNA_regions.permutations_annotations.sh/empirical_test_enrichment_DNA_regions.permutations.py/empirical_test_enrichment_DNA_regions.annotations.py/empirical_test_enrichment_DNA_regions.permutations_annotations_counts.py/empirical_test_enrichment_DNA_regions.permutations_annotations_pvalues.py
+-(optional) Permute classification calls across IR genes and GO terms to test significant enrichment of total sweep calls using empirical_test_enrichment_IR_genes_GO_terms_selection-presence.permutations_annotations.sh
+-(optional) Permute classification calls across IR genes and GO terms to test significant enrichment of each sweep state using empirical_test_enrichment_IR_genes_GO_terms.permutations_annotations.sh
